@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Potability Prediction</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Custom Styles */
+        /* CSS Styles */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -15,7 +13,7 @@
             padding: 0;
         }
 
-        h1, h2 {
+        h1 {
             color: #333;
         }
 
@@ -53,78 +51,46 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+
+        h2 {
+            color: #4CAF50;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Potability Prediction</h1>
-        <form id="predictionForm">
-            <label for="ph">pH:</label>
-            <input type="number" step="0.1" class="form-control" name="ph" id="ph" value="{{ input_data.ph if input_data else '' }}"><br>
+    <h1>Potability Prediction</h1>
+    <form method="POST">
+        <label for="ph">pH:</label>
+        <input type="number" step="0.1" name="ph" value="{{ input_data.ph if input_data else '' }}"><br>
 
-            <!-- Add Bootstrap form-group class -->
-            <label for="hardness">Hardness:</label>
-            <input type="number" step="1" class="form-control" name="hardness" id="hardness" value="{{ input_data.hardness if input_data else '' }}"><br>
+        <label for="hardness">Hardness:</label>
+        <input type="number" step="1" name="hardness" value="{{ input_data.hardness if input_data else '' }}"><br>
 
-            <!-- Add Bootstrap form-group class -->
-            <label for="solids">Solids:</label>
-            <input type="number" step="1" class="form-control" name="solids" id="solids" value="{{ input_data.solids if input_data else '' }}"><br>
+        <label for="solids">Solids:</label>
+        <input type="number" step="1" name="solids" value="{{ input_data.solids if input_data else '' }}"><br>
 
-            <!-- Add Bootstrap form-group class -->
-            <label for="chloramines">Chloramines:</label>
-            <input type="number" step="0.1" class="form-control" name="chloramines" id="chloramines" value="{{ input_data.chloramines if input_data else '' }}"><br>
+        <label for="chloramines">Chloramines:</label>
+        <input type="number" step="0.1" name="chloramines" value="{{ input_data.chloramines if input_data else '' }}"><br>
 
-            <!-- Add Bootstrap form-group class -->
-            <label for="sulfate">Sulfate:</label>
-            <input type="number" step="1" class="form-control" name="sulfate" id="sulfate" value="{{ input_data.sulfate if input_data else '' }}"><br>
+        <label for="sulfate">Sulfate:</label>
+        <input type="number" step="1" name="sulfate" value="{{ input_data.sulfate if input_data else '' }}"><br>
 
-            <!-- Add Bootstrap form-group class -->
-            <label for="conductivity">Conductivity:</label>
-            <input type="number" step="1" class="form-control" name="conductivity" id="conductivity" value="{{ input_data.conductivity if input_data else '' }}"><br>
+        <label for="conductivity">Conductivity:</label>
+        <input type="number" step="1" name="conductivity" value="{{ input_data.conductivity if input_data else '' }}"><br>
 
-            <!-- Add Bootstrap form-group class -->
-            <label for="organic_carbon">Organic Carbon:</label>
-            <input type="number" step="0.1" class="form-control" name="organic_carbon" id="organic_carbon" value="{{ input_data.organic_carbon if input_data else '' }}"><br>
+        <label for="organic_carbon">Organic Carbon:</label>
+        <input type="number" step="0.1" name="organic_carbon" value="{{ input_data.organic_carbon if input_data else '' }}"><br>
 
-            <!-- Add Bootstrap form-group class -->
-            <label for="trihalomethanes">Trihalomethanes:</label>
-            <input type="number" step="0.1" class="form-control" name="trihalomethanes" id="trihalomethanes" value="{{ input_data.trihalomethanes if input_data else '' }}"><br>
+        <label for="trihalomethanes">Trihalomethanes:</label>
+        <input type="number" step="0.1" name="trihalomethanes" value="{{ input_data.trihalomethanes if input_data else '' }}"><br>
 
-            <!-- Add Bootstrap form-group class -->
-            <label for="turbidity">Turbidity:</label>
-            <input type="number" step="0.1" class="form-control" name="turbidity" id="turbidity" value="{{ input_data.turbidity if input_data else '' }}"><br>
+        <label for="turbidity">Turbidity:</label>
+        <input type="number" step="0.1" name="turbidity" value="{{ input_data.turbidity if input_data else '' }}"><br>
 
-            <input type="submit" class="btn btn-primary" value="Predict">
-        </form>
-        <div id="predictionResult"></div>
-    </div>
-
-    <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#predictionForm').submit(function(event) {
-                event.preventDefault(); // Prevent form from submitting normally
-
-                // Serialize form data
-                var formData = $(this).serialize();
-
-                // Submit form data using AJAX
-                $.ajax({
-                    type: 'POST',
-                    url: 'your_prediction_endpoint', // Update with your prediction endpoint
-                    data: formData,
-                    success: function(response) {
-                        $('#predictionResult').html('<h2>Prediction: ' + response.prediction + '</h2>');
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                    }
-                });
-            });
-        });
-    </script>
+        <input type="submit" value="Predict">
+    </form>
+    {% if prediction is defined %}
+    <h2>Prediction: {{ prediction }}</h2>
+    {% endif %}
 </body>
-</html>
+</html> 
