@@ -26,23 +26,28 @@ def predict_potability(ph, hardness, solids, chloramines, sulfate, conductivity,
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        # Get form data
-        ph = float(request.form['ph'])
-        hardness = float(request.form['hardness'])
-        solids = float(request.form['solids'])
-        chloramines = float(request.form['chloramines'])
-        sulfate = float(request.form['sulfate'])
-        conductivity = float(request.form['conductivity'])
-        organic_carbon = float(request.form['organic_carbon'])
-        trihalomethanes = float(request.form['trihalomethanes'])
-        turbidity = float(request.form['turbidity'])
+        try:
+            # Get form data
+            ph = float(request.form['ph'])
+            hardness = float(request.form['hardness'])
+            solids = float(request.form['solids'])
+            chloramines = float(request.form['chloramines'])
+            sulfate = float(request.form['sulfate'])
+            conductivity = float(request.form['conductivity'])
+            organic_carbon = float(request.form['organic_carbon'])
+            trihalomethanes = float(request.form['trihalomethanes'])
+            turbidity = float(request.form['turbidity'])
 
-        # Get prediction
-        prediction = predict_potability(ph, hardness, solids, chloramines, sulfate, conductivity, organic_carbon, trihalomethanes, turbidity)
+            # Get prediction
+            prediction = predict_potability(ph, hardness, solids, chloramines, sulfate, conductivity, organic_carbon, trihalomethanes, turbidity)
 
-        return render_template('index.html', prediction=prediction, ph=ph, hardness=hardness, solids=solids, chloramines=chloramines,
-                               sulfate=sulfate, conductivity=conductivity, organic_carbon=organic_carbon,
-                               trihalomethanes=trihalomethanes, turbidity=turbidity)
+            return render_template('index.html', prediction=prediction, ph=ph, hardness=hardness, solids=solids, chloramines=chloramines,
+                                   sulfate=sulfate, conductivity=conductivity, organic_carbon=organic_carbon,
+                                   trihalomethanes=trihalomethanes, turbidity=turbidity)
+
+        except ValueError:
+            # Handle the case where form data cannot be converted to float
+            return render_template('index.html', error_message="Please enter valid numeric values.")
 
     return render_template('index.html')
 
